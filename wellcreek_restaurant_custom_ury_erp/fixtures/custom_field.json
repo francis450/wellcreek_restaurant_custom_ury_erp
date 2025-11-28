@@ -1,0 +1,30 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "custom_table",
+  "fieldtype": "Link",
+  "options": "Restaurant Table",
+  "label": "Table",
+  "insert_after": "customer",
+  "read_only": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "custom_session",
+  "fieldtype": "Link",
+  "options": "Customer Session",
+  "label": "Customer Session",
+  "insert_after": "custom_table",
+  "read_only": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "custom_special_instructions",
+  "fieldtype": "Text",
+  "label": "Special Instructions",
+  "insert_after": "custom_session"
+ }
+]

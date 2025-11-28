@@ -1,0 +1,181 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:CALL-{####}",
+ "creation": "2025-11-28 09:53:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "call_details_section",
+  "table",
+  "table_number",
+  "column_break_3",
+  "session",
+  "status",
+  "section_break_6",
+  "call_time",
+  "acknowledged_time",
+  "column_break_9",
+  "resolved_time",
+  "response_time_minutes",
+  "section_break_12",
+  "assigned_waiter",
+  "call_reason",
+  "column_break_15",
+  "notes",
+  "customer_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "call_details_section",
+   "fieldtype": "Section Break",
+   "label": "Call Details"
+  },
+  {
+   "fieldname": "table",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Table",
+   "options": "Restaurant Table",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "table.table_number",
+   "fieldname": "table_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Table Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "session",
+   "fieldtype": "Link",
+   "label": "Session",
+   "options": "Customer Session"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nAcknowledged\nResolved\nCancelled"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break",
+   "label": "Timeline"
+  },
+  {
+   "default": "now",
+   "fieldname": "call_time",
+   "fieldtype": "Datetime",
+   "label": "Call Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "acknowledged_time",
+   "fieldtype": "Datetime",
+   "label": "Acknowledged Time"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "resolved_time",
+   "fieldtype": "Datetime",
+   "label": "Resolved Time"
+  },
+  {
+   "fieldname": "response_time_minutes",
+   "fieldtype": "Float",
+   "label": "Response Time (Minutes)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break",
+   "label": "Assignment & Details"
+  },
+  {
+   "fieldname": "assigned_waiter",
+   "fieldtype": "Link",
+   "label": "Assigned Waiter",
+   "options": "User"
+  },
+  {
+   "fieldname": "call_reason",
+   "fieldtype": "Select",
+   "label": "Call Reason",
+   "options": "\nAssistance Required\nOrder Inquiry\nBill Request\nComplaint\nOther"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text",
+   "label": "Waiter Notes"
+  },
+  {
+   "fieldname": "customer_message",
+   "fieldtype": "Text",
+   "label": "Customer Message"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-28 09:53:00.000000",
+ "modified_by": "Administrator",
+ "module": "QR Ordering",
+ "name": "Waiter Call",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Restaurant Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Waiter",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
