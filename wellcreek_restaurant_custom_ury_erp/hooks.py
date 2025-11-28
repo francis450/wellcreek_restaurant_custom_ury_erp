@@ -137,13 +137,11 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"URY Table": {
+		"before_save": "wellcreek_restaurant_custom_ury_erp.overrides.ury_table.generate_qr_code",
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -249,7 +247,12 @@ fixtures = [
 		"doctype": "Custom Field",
 		"filters": [
 			["name", "in", [
-				"Sales Order-custom_table",
+				"URY Table-custom_qr_code",
+				"URY Table-custom_qr_code_preview",
+				"URY Table-custom_qr_code_url",
+				"URY Table-custom_security_token",
+				"URY Table-custom_online_ordering_enabled",
+				"Sales Order-custom_ury_table",
 				"Sales Order-custom_session",
 				"Sales Order-custom_special_instructions"
 			]]

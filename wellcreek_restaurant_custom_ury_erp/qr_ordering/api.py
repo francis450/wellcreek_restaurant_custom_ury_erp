@@ -80,7 +80,7 @@ def create_customer_order(session_token, table, items, special_instructions=None
 			"transaction_date": frappe.utils.today(),
 			"delivery_date": frappe.utils.today(),
 			"items": [],
-			"custom_table": table,
+			"custom_ury_table": table,
 			"custom_session": session.name
 		})
 
@@ -194,4 +194,73 @@ def get_item_details(item_code):
 
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Get Item Details Error")
+		return {"success": False, "message": str(e)}
+
+
+@frappe.whitelist(allow_guest=True)
+def get_session_bill(session_token):
+	"""Get the current bill for a customer session"""
+	try:
+		# Validate session
+		session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		if session.status != "Active":
+			return {"success": False, "message": "Session is not active"}
+
+		# Get all submitted orders for this session
+		orders = frappe.get_all(
+			"Sales Order",
+			filters={
+				"custom_session": session.name,
+				"docstatus": 1  # Submitted orders only
+			},
+			fields=["name", "grand_total", "net_total", "total_taxes_and_charges"]
+		)
+
+		# Get detailed items for each order
+		bill_items = []
+		subtotal = 0
+		total_tax = 0
+
+		for order in orders:
+			order_items = frappe.get_all(
+				"Sales Order Item",
+				filters={"parent": order.name},
+				fields=["item_code", "item_name", "qty", "rate", "amount"]
+			)
+
+			for item in order_items:
+				bill_items.append({
+					"order_id": order.name,
+					"item_code": item.item_code,
+					"item_name": item.item_name,
+					"quantity": item.qty,
+					"rate": item.rate,
+					"amount": item.amount
+				})
+				subtotal += item.amount
+
+			total_tax += order.get("total_taxes_and_charges") or 0
+
+		# Calculate totals
+		grand_total = subtotal + total_tax
+
+		return {
+			"success": True,
+			"bill": {
+				"session_id": session.name,
+				"table": session.table,
+				"table_number": session.table_number,
+				"items": bill_items,
+				"subtotal": subtotal,
+				"tax": total_tax,
+				"grand_total": grand_total,
+				"total_orders": len(orders),
+				"currency": frappe.defaults.get_global_default("currency") or "KES"
+			}
+		}
+
+	except frappe.DoesNotExistError:
+		return {"success": False, "message": "Invalid session"}
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), "Get Session Bill Error")
 		return {"success": False, "message": str(e)}

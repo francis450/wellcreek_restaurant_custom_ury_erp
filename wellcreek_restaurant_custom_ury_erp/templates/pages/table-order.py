@@ -18,11 +18,16 @@ def get_context(context):
 
 	# Validate table access
 	try:
-		table_doc = frappe.get_doc("Restaurant Table", table)
+		# Use the validation function from overrides
+		from wellcreek_restaurant_custom_ury_erp.overrides.ury_table import validate_table_access
 
-		if table_doc.security_token != token:
-			context.error = "Invalid access token. Please scan the correct QR code."
+		validation = validate_table_access(table, token)
+		if not validation.get("valid"):
+			context.error = validation.get("message", "Invalid access token. Please scan the correct QR code.")
 			return context
+
+		# Get table details
+		table_doc = frappe.get_doc("URY Table", table)
 
 		# Get or create session
 		from wellcreek_restaurant_custom_ury_erp.qr_ordering.doctype.customer_session.customer_session import get_or_create_session
@@ -31,8 +36,8 @@ def get_context(context):
 
 		# Set context variables
 		context.table = table
-		context.table_number = table_doc.table_number
-		context.table_name = table_doc.table_name or f"Table {table_doc.table_number}"
+		context.table_number = table_doc.name
+		context.table_name = table_doc.get("table_name") or table_doc.name or f"Table {table_doc.name}"
 		context.session_token = session.get("session_token")
 		context.session_name = session.get("name")
 
