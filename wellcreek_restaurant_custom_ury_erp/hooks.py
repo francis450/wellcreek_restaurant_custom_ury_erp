@@ -83,7 +83,7 @@ app_license = "mit"
 # ------------
 
 # before_install = "wellcreek_restaurant_custom_ury_erp.install.before_install"
-# after_install = "wellcreek_restaurant_custom_ury_erp.install.after_install"
+after_install = "wellcreek_restaurant_custom_ury_erp.setup.install.after_install"
 
 # Uninstallation
 # ------------
@@ -241,19 +241,4 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-
-# Fixtures
-# --------
-fixtures = [
-	{
-		"doctype": "Custom Field",
-		"filters": [
-			["name", "in", [
-				"Sales Order-custom_table",
-				"Sales Order-custom_session",
-				"Sales Order-custom_special_instructions"
-			]]
-		]
-	}
-]
 
