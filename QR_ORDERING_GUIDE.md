@@ -45,24 +45,24 @@ The QR Code Table Ordering System extends URY ERP to provide customers with a se
    bench get-app https://github.com/francis450/wellcreek_restaurant_custom_ury_erp --branch develop
    ```
 
-2. **Install the app on your site:**
-   ```bash
-   bench --site your-site-name install-app wellcreek_restaurant_custom_ury_erp
-   ```
-
-3. **Install dependencies:**
+2. **Install dependencies:**
    ```bash
    bench pip install qrcode[pil] Pillow
    ```
 
-4. **Run migrations:**
+3. **Install the app on your site:**
    ```bash
-   bench --site your-site-name migrate
+   bench --site your-site-name install-app wellcreek_restaurant_custom_ury_erp
    ```
 
-5. **Import fixtures:**
+   The installation will automatically:
+   - Create custom fields on Sales Order
+   - Create Restaurant Manager and Waiter roles
+   - Set up the QR Ordering workspace
+
+4. **Run migrations (if needed):**
    ```bash
-   bench --site your-site-name import-fixtures
+   bench --site your-site-name migrate
    ```
 
 ## Setup Guide
@@ -229,8 +229,11 @@ All endpoints are accessible at `/api/method/wellcreek_restaurant_custom_ury_erp
 1. Check Sales Order permissions
 2. Verify "Walk-In Customer" is created
 3. Check custom fields are properly installed:
+   - Custom fields should be automatically created during app installation
+   - If missing, try reinstalling the app:
    ```bash
-   bench --site your-site-name import-fixtures
+   bench --site your-site-name uninstall-app wellcreek_restaurant_custom_ury_erp
+   bench --site your-site-name install-app wellcreek_restaurant_custom_ury_erp
    ```
 
 ### Waiter Notifications Not Working
