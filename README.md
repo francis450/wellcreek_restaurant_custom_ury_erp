@@ -1,6 +1,27 @@
-### Wellcreek Restaurant Custom Ury Erp
+### Wellcreek Restaurant Custom URY ERP
 
-This is the custom app to extend the URY ERP restaurant system to include specific features required by wellcreek restaurant.
+This is the custom app to extend the URY ERP restaurant system to include specific features required by Wellcreek Restaurant.
+
+## Features
+
+### 1. QR Code Table Ordering System
+
+A complete self-service ordering solution that allows customers to:
+- Scan QR codes at their table to access the menu
+- Browse menu items with images, descriptions, and prices
+- Place orders directly from their mobile devices
+- Track order status in real-time
+- Call for waiter assistance with a single tap
+- View order history for their dining session
+
+**Key Components:**
+- **Restaurant Table Management**: Create tables with auto-generated QR codes
+- **Customer Sessions**: Track customer activity and orders per table visit
+- **Waiter Call System**: Real-time notifications for customer assistance requests
+- **Mobile-First Interface**: Responsive design optimized for smartphones
+- **Secure Access**: Token-based authentication for table access
+
+For detailed setup and usage instructions, see [QR_ORDERING_GUIDE.md](./QR_ORDERING_GUIDE.md)
 
 ### Installation
 

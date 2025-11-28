@@ -1,0 +1,125 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"_dxbhGH5Gf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">QR Code Table Ordering</span>\",\"col\":12}},{\"id\":\"_LzAW3g3FW\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurant Table\",\"col\":3}},{\"id\":\"_x5tWP0mhZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Session\",\"col\":3}},{\"id\":\"_9d5nBxoZM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Waiter Call\",\"col\":3}},{\"id\":\"_Pt8rQxWyN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"_header_reports\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reports & Analytics</span>\",\"col\":12}},{\"id\":\"_card1\",\"type\":\"card\",\"data\":{\"card_name\":\"Active Sessions\",\"col\":4}},{\"id\":\"_card2\",\"type\":\"card\",\"data\":{\"card_name\":\"Pending Calls\",\"col\":4}},{\"id\":\"_card3\",\"type\":\"card\",\"data\":{\"card_name\":\"Today's Orders\",\"col\":4}}]",
+ "creation": "2025-11-28 10:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "qrcode",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "QR Ordering",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tables",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Restaurant Table",
+   "link_count": 0,
+   "link_to": "Restaurant Table",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sessions",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer Session",
+   "link_count": 0,
+   "link_to": "Customer Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Waiter Calls",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Waiter Call",
+   "link_count": 0,
+   "link_to": "Waiter Call",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Orders",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Order",
+   "link_count": 0,
+   "link_to": "Sales Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-11-28 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "QR Ordering",
+ "name": "QR Ordering",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 10,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "format": "{} Active",
+   "label": "Restaurant Table",
+   "link_to": "Restaurant Table",
+   "stats_filter": "{\"status\": \"Available\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "format": "{} Active",
+   "label": "Customer Session",
+   "link_to": "Customer Session",
+   "stats_filter": "{\"status\": \"Active\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "format": "{} Pending",
+   "label": "Waiter Call",
+   "link_to": "Waiter Call",
+   "stats_filter": "{\"status\": \"Pending\"}",
+   "type": "DocType"
+  }
+ ],
+ "title": "QR Ordering"
+}
