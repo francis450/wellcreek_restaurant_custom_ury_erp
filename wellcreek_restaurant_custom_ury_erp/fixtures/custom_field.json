@@ -1,6 +1,7 @@
 [
  {
   "doctype": "Custom Field",
+  "name": "URY Table-custom_qr_code",
   "dt": "URY Table",
   "fieldname": "custom_qr_code",
   "fieldtype": "Attach Image",
@@ -11,6 +12,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "URY Table-custom_qr_code_preview",
   "dt": "URY Table",
   "fieldname": "custom_qr_code_preview",
   "fieldtype": "Image",
@@ -22,6 +24,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "URY Table-custom_qr_code_url",
   "dt": "URY Table",
   "fieldname": "custom_qr_code_url",
   "fieldtype": "Small Text",
@@ -32,6 +35,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "URY Table-custom_security_token",
   "dt": "URY Table",
   "fieldname": "custom_security_token",
   "fieldtype": "Data",
@@ -43,6 +47,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "URY Table-custom_online_ordering_enabled",
   "dt": "URY Table",
   "fieldname": "custom_online_ordering_enabled",
   "fieldtype": "Check",
@@ -52,6 +57,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Order-custom_ury_table",
   "dt": "Sales Order",
   "fieldname": "custom_ury_table",
   "fieldtype": "Link",
@@ -62,6 +68,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Order-custom_session",
   "dt": "Sales Order",
   "fieldname": "custom_session",
   "fieldtype": "Link",
@@ -72,6 +79,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Order-custom_special_instructions",
   "dt": "Sales Order",
   "fieldname": "custom_special_instructions",
   "fieldtype": "Text",
