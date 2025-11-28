@@ -19,7 +19,11 @@ class CustomerSession(Document):
 	def after_insert(self):
 		"""Update table status after session creation"""
 		if self.table and self.status == "Active":
-			frappe.db.set_value("Restaurant Table", self.table, "status", "Occupied")
+			# Check if URY Table has status field before updating
+			try:
+				frappe.db.set_value("URY Table", self.table, "status", "Occupied")
+			except Exception as e:
+				frappe.log_error(f"Could not update table status: {str(e)}", "Customer Session After Insert")
 
 	def on_update(self):
 		"""Update table status based on session status"""
@@ -33,7 +37,10 @@ class CustomerSession(Document):
 				})
 
 				if active_sessions == 0:
-					frappe.db.set_value("Restaurant Table", self.table, "status", "Available")
+					try:
+						frappe.db.set_value("URY Table", self.table, "status", "Available")
+					except Exception as e:
+						frappe.log_error(f"Could not update table status: {str(e)}", "Customer Session On Update")
 
 				if self.status == "Completed" and not self.end_time:
 					self.end_time = frappe.utils.now()
@@ -55,10 +62,12 @@ class CustomerSession(Document):
 @frappe.whitelist(allow_guest=True)
 def get_or_create_session(table, table_token):
 	"""Get existing active session or create a new one"""
-	# Validate table access
-	table_doc = frappe.get_doc("Restaurant Table", table)
-	if table_doc.security_token != table_token:
-		frappe.throw("Invalid table access token")
+	# Validate table access using the override function
+	from wellcreek_restaurant_custom_ury_erp.overrides.ury_table import validate_table_access
+
+	validation = validate_table_access(table, table_token)
+	if not validation.get("valid"):
+		frappe.throw(validation.get("message", "Invalid table access"))
 
 	# Check for existing active session
 	existing_sessions = frappe.get_all(

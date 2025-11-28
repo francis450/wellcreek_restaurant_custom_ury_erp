@@ -1,10 +1,61 @@
 [
  {
   "doctype": "Custom Field",
+  "dt": "URY Table",
+  "fieldname": "custom_qr_code",
+  "fieldtype": "Attach Image",
+  "label": "QR Code",
+  "insert_after": "status",
+  "read_only": 1,
+  "no_copy": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "URY Table",
+  "fieldname": "custom_qr_code_preview",
+  "fieldtype": "Image",
+  "label": "QR Code Preview",
+  "options": "custom_qr_code",
+  "insert_after": "custom_qr_code",
+  "read_only": 1,
+  "no_copy": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "URY Table",
+  "fieldname": "custom_qr_code_url",
+  "fieldtype": "Small Text",
+  "label": "QR Code URL",
+  "insert_after": "custom_qr_code_preview",
+  "read_only": 1,
+  "no_copy": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "URY Table",
+  "fieldname": "custom_security_token",
+  "fieldtype": "Data",
+  "label": "Security Token",
+  "insert_after": "custom_qr_code_url",
+  "read_only": 1,
+  "hidden": 1,
+  "no_copy": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "URY Table",
+  "fieldname": "custom_online_ordering_enabled",
+  "fieldtype": "Check",
+  "label": "Enable Online Ordering",
+  "insert_after": "custom_security_token",
+  "default": "1"
+ },
+ {
+  "doctype": "Custom Field",
   "dt": "Sales Order",
-  "fieldname": "custom_table",
+  "fieldname": "custom_ury_table",
   "fieldtype": "Link",
-  "options": "Restaurant Table",
+  "options": "URY Table",
   "label": "Table",
   "insert_after": "customer",
   "read_only": 1
@@ -16,7 +67,7 @@
   "fieldtype": "Link",
   "options": "Customer Session",
   "label": "Customer Session",
-  "insert_after": "custom_table",
+  "insert_after": "custom_ury_table",
   "read_only": 1
  },
  {

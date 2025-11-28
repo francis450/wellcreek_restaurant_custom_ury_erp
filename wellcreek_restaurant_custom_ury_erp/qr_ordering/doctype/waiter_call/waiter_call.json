@@ -36,11 +36,11 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Table",
-   "options": "Restaurant Table",
+   "options": "URY Table",
    "reqd": 1
   },
   {
-   "fetch_from": "table.table_number",
+   "fetch_from": "table.name",
    "fieldname": "table_number",
    "fieldtype": "Data",
    "in_list_view": 1,

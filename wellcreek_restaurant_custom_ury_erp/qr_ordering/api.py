@@ -80,7 +80,7 @@ def create_customer_order(session_token, table, items, special_instructions=None
 			"transaction_date": frappe.utils.today(),
 			"delivery_date": frappe.utils.today(),
 			"items": [],
-			"custom_table": table,
+			"custom_ury_table": table,
 			"custom_session": session.name
 		})
 
