@@ -59,7 +59,15 @@ def create_customer_order(session_token, table, items, special_instructions=None
 	"""Create an order from customer interface"""
 	try:
 		# Validate session
-		session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		try:
+			session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		except Exception as e:
+			frappe.log_error(f"Session validation error: {str(e)}\n{frappe.get_traceback()}", "Customer Session Lookup Error")
+			return {
+				"success": False,
+				"message": "Invalid session. Please scan the QR code again."
+			}
+
 		if session.status != "Active":
 			frappe.throw(_("Session is not active"))
 
@@ -120,7 +128,11 @@ def create_customer_order(session_token, table, items, special_instructions=None
 
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Create Customer Order Error")
-		return {"success": False, "message": str(e)}
+		error_message = str(e)
+		# Provide a user-friendly error message
+		if "Customer Session" in error_message or "module" in error_message.lower():
+			error_message = "System configuration error. Please contact staff. (Error: Customer Session module)"
+		return {"success": False, "message": error_message}
 
 
 @frappe.whitelist(allow_guest=True)

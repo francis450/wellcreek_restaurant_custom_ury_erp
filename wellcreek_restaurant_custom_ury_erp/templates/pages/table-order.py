@@ -8,6 +8,15 @@ def get_context(context):
 	"""Get context for table order page"""
 	context.no_cache = 1
 
+	# Initialize context variables to prevent template errors
+	context.table = None
+	context.table_name = None
+	context.table_number = None
+	context.session_token = None
+	context.session_name = None
+	context.error = None
+	context.currency = frappe.defaults.get_global_default("currency") or "KSh"
+
 	# Get table and token from query parameters
 	table = frappe.form_dict.get("table")
 	token = frappe.form_dict.get("token")
@@ -34,17 +43,24 @@ def get_context(context):
 
 		session = get_or_create_session(table, token)
 
+		# Debug logging
+		frappe.logger().info(f"Table: {table}, Session: {session}")
+
 		# Set context variables
 		context.table = table
 		context.table_number = table_doc.name
-		context.table_name = table_doc.get("table_name") or table_doc.name or f"Table {table_doc.name}"
-		context.session_token = session.get("session_token")
+		context.table_name = table_doc.get("table_name") or table_doc.name
+		context.session_token = session.get("session_token") or session.get("session_token")
 		context.session_name = session.get("name")
 
-	except frappe.DoesNotExistError:
+		# Log successful context setup
+		frappe.logger().info(f"Context set - Table: {context.table_name}, Session: {context.session_name}")
+
+	except frappe.DoesNotExistError as e:
+		frappe.log_error(f"Table not found: {table}\n{frappe.get_traceback()}", "Table Order Page - Table Not Found")
 		context.error = "Table not found. Please contact staff."
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Table Order Page Error")
-		context.error = "An error occurred. Please contact staff."
+		context.error = f"An error occurred: {str(e)}. Please contact staff."
 
 	return context
