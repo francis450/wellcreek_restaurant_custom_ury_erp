@@ -60,7 +60,15 @@ def create_customer_order(session_token, table, items, special_instructions=None
 	try:
 		# Validate session
 		try:
-			session = frappe.get_doc("Customer Session", {"session_token": session_token})
+			# Get session name first, then fetch the document
+			session_name = frappe.db.get_value("Customer Session", {"session_token": session_token}, "name")
+			if not session_name:
+				return {
+					"success": False,
+					"message": "Invalid session. Please scan the QR code again."
+				}
+
+			session = frappe.get_doc("Customer Session", session_name)
 		except Exception as e:
 			frappe.log_error(f"Session validation error: {str(e)}\n{frappe.get_traceback()}", "Customer Session Lookup Error")
 			return {
@@ -139,7 +147,12 @@ def create_customer_order(session_token, table, items, special_instructions=None
 def get_session_orders(session_token):
 	"""Get all orders for a customer session"""
 	try:
-		session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		# Get session name first, then fetch the document
+		session_name = frappe.db.get_value("Customer Session", {"session_token": session_token}, "name")
+		if not session_name:
+			return {"success": False, "message": "Invalid session"}
+
+		session = frappe.get_doc("Customer Session", session_name)
 
 		orders = frappe.get_all(
 			"Sales Order",
@@ -214,7 +227,12 @@ def get_session_bill(session_token):
 	"""Get the current bill for a customer session"""
 	try:
 		# Validate session
-		session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		# Get session name first, then fetch the document
+		session_name = frappe.db.get_value("Customer Session", {"session_token": session_token}, "name")
+		if not session_name:
+			return {"success": False, "message": "Invalid session"}
+
+		session = frappe.get_doc("Customer Session", session_name)
 		if session.status != "Active":
 			return {"success": False, "message": "Session is not active"}
 
