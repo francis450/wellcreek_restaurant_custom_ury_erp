@@ -113,7 +113,8 @@
 	<!-- Call Waiter Button -->
 	<div class="call-waiter-fab">
 		<button class="btn btn-danger btn-circle btn-lg" id="call-waiter-btn" title="Call Waiter">
-			<i class="fa fa-bell"></i>
+			<i class="fa fa-bell" aria-hidden="true"></i>
+			<span class="sr-only">Call Waiter</span>
 		</button>
 	</div>
 
@@ -368,6 +369,16 @@
 		border-radius: 50%;
 		font-size: 24px;
 		box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+	}
+
+	.btn-circle i {
+		color: white;
+		font-size: 24px;
+		line-height: 1;
 	}
 
 	@media (max-width: 768px) {

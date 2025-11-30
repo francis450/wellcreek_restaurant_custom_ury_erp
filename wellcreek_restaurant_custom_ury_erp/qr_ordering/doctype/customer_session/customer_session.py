@@ -110,7 +110,12 @@ def get_or_create_session(table, table_token):
 def validate_session(session_token):
 	"""Validate session token and return session details"""
 	try:
-		session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		# Get session name first, then fetch the document
+		session_name = frappe.db.get_value("Customer Session", {"session_token": session_token}, "name")
+		if not session_name:
+			return {"valid": False, "message": "Invalid session token"}
+
+		session = frappe.get_doc("Customer Session", session_name)
 		if session.status == "Active":
 			# Update last activity
 			frappe.db.set_value("Customer Session", session.name, "last_activity", frappe.utils.now())

@@ -65,7 +65,12 @@ def create_waiter_call(session_token, table, call_reason=None, customer_message=
 	"""Create a waiter call from customer interface"""
 	# Validate session
 	try:
-		session = frappe.get_doc("Customer Session", {"session_token": session_token})
+		# Get session name first, then fetch the document
+		session_name = frappe.db.get_value("Customer Session", {"session_token": session_token}, "name")
+		if not session_name:
+			return {"success": False, "message": "Invalid session"}
+
+		session = frappe.get_doc("Customer Session", session_name)
 		if session.status != "Active":
 			frappe.throw("Session is not active")
 
