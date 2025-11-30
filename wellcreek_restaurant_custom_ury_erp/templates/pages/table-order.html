@@ -77,11 +77,11 @@
 				<div class="cart-summary" id="cart-summary" style="display: none;">
 					<div class="summary-row">
 						<span>Subtotal:</span>
-						<span class="cart-subtotal">$0.00</span>
+						<span class="cart-subtotal">KSh 0.00</span>
 					</div>
 					<div class="summary-row total">
 						<span><strong>Total:</strong></span>
-						<span class="cart-total"><strong>$0.00</strong></span>
+						<span class="cart-total"><strong>KSh 0.00</strong></span>
 					</div>
 
 					<div class="form-group">
@@ -115,6 +115,40 @@
 		<button class="btn btn-danger btn-circle btn-lg" id="call-waiter-btn" title="Call Waiter">
 			<i class="fa fa-bell"></i>
 		</button>
+	</div>
+
+	<!-- Call Waiter Modal -->
+	<div class="modal fade" id="callWaiterModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Call Waiter</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="waiter-call-reason">Reason</label>
+						<select class="form-control" id="waiter-call-reason">
+							<option value="Assistance Required">Assistance Required</option>
+							<option value="Order Inquiry">Order Inquiry</option>
+							<option value="Bill Request">Bill Request</option>
+							<option value="Complaint">Complaint</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="waiter-call-message">Message (Optional)</label>
+						<textarea class="form-control" id="waiter-call-message" rows="3" placeholder="Add any additional details..."></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" id="send-waiter-call-btn">Send Request</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Hidden data -->
@@ -362,7 +396,8 @@
 	function setupEventListeners() {
 		document.getElementById('category-select').addEventListener('change', filterByCategory);
 		document.getElementById('place-order-btn').addEventListener('click', placeOrder);
-		document.getElementById('call-waiter-btn').addEventListener('click', callWaiter);
+		document.getElementById('call-waiter-btn').addEventListener('click', showCallWaiterModal);
+		document.getElementById('send-waiter-call-btn').addEventListener('click', sendWaiterCall);
 
 		// Tab change events
 		document.getElementById('orders-tab').addEventListener('shown.bs.tab', loadOrders);
@@ -417,7 +452,7 @@
 				<div class="menu-item-body">
 					<div class="menu-item-name">${item.item_name}</div>
 					<div class="menu-item-description">${item.description || ''}</div>
-					<div class="menu-item-price">$${parseFloat(item.standard_rate || 0).toFixed(2)}</div>
+					<div class="menu-item-price">KSh ${parseFloat(item.standard_rate || 0).toFixed(2)}</div>
 					<button class="btn btn-primary btn-block" onclick="addToCart('${item.name}')">
 						<i class="fa fa-plus"></i> Add to Cart
 					</button>
@@ -483,15 +518,15 @@
 						<button class="qty-btn" onclick="increaseQty(${index})">+</button>
 					</div>
 					<div class="cart-item-price">
-						$${(item.rate * item.qty).toFixed(2)}
+						KSh ${(item.rate * item.qty).toFixed(2)}
 					</div>
 				</div>
 			</div>
 		`).join('');
 
 		const subtotal = cart.reduce((sum, item) => sum + (item.rate * item.qty), 0);
-		document.querySelector('.cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-		document.querySelector('.cart-total').textContent = `$${subtotal.toFixed(2)}`;
+		document.querySelector('.cart-subtotal').textContent = `KSh ${subtotal.toFixed(2)}`;
+		document.querySelector('.cart-total').textContent = `KSh ${subtotal.toFixed(2)}`;
 	}
 
 	// Cart operations
@@ -588,50 +623,51 @@
 					${order.items.map(item => `
 						<div style="display: flex; justify-content: space-between; padding: 5px 0;">
 							<span>${item.item_name} x${item.qty}</span>
-							<span>$${item.amount.toFixed(2)}</span>
+							<span>KSh ${item.amount.toFixed(2)}</span>
 						</div>
 					`).join('')}
 				</div>
 				<div style="border-top: 1px solid #ddd; margin-top: 10px; padding-top: 10px;">
-					<strong>Total: $${order.grand_total.toFixed(2)}</strong>
+					<strong>Total: KSh ${order.grand_total.toFixed(2)}</strong>
 				</div>
 			</div>
 		`).join('');
 	}
 
-	// Call waiter
-	function callWaiter() {
-		frappe.prompt([
-			{
-				label: 'Reason',
-				fieldname: 'reason',
-				fieldtype: 'Select',
-				options: '\nAssistance Required\nOrder Inquiry\nBill Request\nComplaint\nOther',
-				default: 'Assistance Required'
+	// Show call waiter modal
+	function showCallWaiterModal() {
+		$('#callWaiterModal').modal('show');
+	}
+
+	// Send waiter call
+	function sendWaiterCall() {
+		const reason = document.getElementById('waiter-call-reason').value;
+		const message = document.getElementById('waiter-call-message').value;
+
+		frappe.call({
+			method: 'wellcreek_restaurant_custom_ury_erp.qr_ordering.doctype.waiter_call.waiter_call.create_waiter_call',
+			args: {
+				session_token: sessionToken,
+				table: tableId,
+				call_reason: reason,
+				customer_message: message
 			},
-			{
-				label: 'Message (Optional)',
-				fieldname: 'message',
-				fieldtype: 'Small Text'
-			}
-		], function(values) {
-			frappe.call({
-				method: 'wellcreek_restaurant_custom_ury_erp.qr_ordering.doctype.waiter_call.waiter_call.create_waiter_call',
-				args: {
-					session_token: sessionToken,
-					table: tableId,
-					call_reason: values.reason,
-					customer_message: values.message
-				},
-				callback: function(r) {
-					if (r.message && r.message.success) {
-						frappe.show_alert({message: 'Waiter has been notified!', indicator: 'green'});
-					} else {
-						frappe.msgprint(r.message.message || 'Failed to call waiter');
-					}
+			callback: function(r) {
+				if (r.message && r.message.success) {
+					$('#callWaiterModal').modal('hide');
+					// Clear form
+					document.getElementById('waiter-call-reason').value = 'Assistance Required';
+					document.getElementById('waiter-call-message').value = '';
+					// Show success message
+					frappe.show_alert({message: 'Waiter has been notified!', indicator: 'green'});
+				} else {
+					frappe.msgprint(r.message.message || 'Failed to call waiter');
 				}
-			});
-		}, 'Call Waiter', 'Send Request');
+			},
+			error: function(r) {
+				frappe.msgprint('Failed to call waiter. Please try again.');
+			}
+		});
 	}
 </script>
 {% endblock %}
